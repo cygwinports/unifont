@@ -1,0 +1,7 @@
+category: X11
+requires: fontconfig mkfontcache mkfontdir font-encodings
+sdesc: "Complete Unicode TrueType font"
+ldesc: "GNU Unifont contains glyphs for every printable code point in 
+the Unicode 5.1 Basic Multilingual Plane (BMP). The BMP occupies the 
+first 65,536 code points of the Unicode space, denoted as 
+U+0000..U+FFFF."
