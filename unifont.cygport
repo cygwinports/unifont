@@ -1,0 +1,37 @@
+inherit font
+
+NAME="unifont"
+VERSION=6.3.20140214
+RELEASE=1
+CATEGORY="X11"
+SUMMARY="Unicode font utilties"
+DESCRIPTION="GNU Unifont is a Unicode font with a glyph for every visible
+Unicode Basic Multilingual Plane code point and more, with supporting utilities
+to modify the font. The Unicode Basic Multilingual Plane covers the first
+65,536 (or 2^16) Unicode code points."
+HOMEPAGE="http://unifoundry.com/unifont.html"
+SRC_URI="mirror://gnu/unifont/unifont-${VERSION}/unifont-${VERSION}.tar.gz"
+PATCH_URI="6.3-build.patch"
+
+PKG_NAMES="${NAME} font-unifont-misc font-unifont-ttf"
+unifont_CONTENTS="usr/bin/ usr/share/doc/ usr/share/info/ usr/share/man/ usr/share/${NAME}/"
+font_unifont_misc_SUMMARY="Complete Unicode bitmap fonts"
+font_unifont_misc_CONTENTS="etc/postinstall ${FONTSDIR#/}/misc/"
+font_unifont_ttf_SUMMARY="Complete Unicode TrueType fonts"
+font_unifont_ttf_CONTENTS="etc/postinstall ${FONTSDIR#/}/TTF/"
+
+src_compile() {
+	cd ${B}
+	lndirs
+	# unifontpic (make bigpic) requires larger stack
+	cygmake -j1 BUILDFONT=1 CC=${CC} CFLAGS="${CFLAGS}" LDFLAGS="-Wl,--stack,0x800000"
+}
+
+src_install() {
+	cd ${B}
+	cyginstall -j1 PCFDEST=${D}${FONTSDIR}/misc TTFDEST=${D}${FONTSDIR}/TTF
+
+	dodoc doc/unifont.txt
+	doinfo doc/unifont.info
+	rm -f ${D}/usr/share/unifont/*.gz
+}

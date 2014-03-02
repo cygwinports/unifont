@@ -1,0 +1,33 @@
+--- origsrc/unifont-6.3.20140214/Makefile	2014-02-14 10:38:20.000000000 -0600
++++ src/unifont-6.3.20140214/Makefile	2014-03-02 02:49:34.438218300 -0600
+@@ -97,7 +97,7 @@ lib/wchardata.c: $(HEXFILES) $(COMBINING
+ 	\rm -f unifonttemp.hex
+ #	(cd lib && $(CC) $(CFLAGS) -c wchardata.c && chmod 644 wchardata.o )
+ 
+-install: bindir libdir docdir
++install:
+ 	$(MAKE) -C src install PREFIX=$(PREFIX)
+ 	$(MAKE) -C man install PREFIX=$(PREFIX) COMPRESS=$(COMPRESS)
+ 	$(MAKE) -C font install PREFIX=$(PREFIX) DESTDIR=$(DESTDIR)
+--- origsrc/unifont-6.3.20140214/font/Makefile	2014-02-14 10:39:11.000000000 -0600
++++ src/unifont-6.3.20140214/font/Makefile	2014-03-02 00:54:59.494994000 -0600
+@@ -118,7 +118,7 @@ all: compiled
+ compiled: $(UNIFILES) $(COMBINING) $(UPPER_FILES) $(UPPER_COMBINING)
+ 	make compiled-files
+ 
+-compiled-files: pcf psf bmp ttf csurttf upperttf uppercsurttf bigpic coverage
++compiled-files: pcf bmp ttf csurttf upperttf uppercsurttf bigpic coverage
+ 	install -p index.html $(COMPILED_DIR)/index.html
+ 
+ #
+--- origsrc/unifont-6.3.20140214/src/Makefile	2014-01-31 23:07:22.000000000 -0600
++++ src/unifont-6.3.20140214/src/Makefile	2014-03-02 02:51:03.225296600 -0600
+@@ -55,7 +55,7 @@ install:
+ 	install -m0755 -d $(INSTALLDIR)
+ 	set -e ; \
+ 	   cd $(LOCALBINDIR) ; \
+-	   install -s -m0755 $(CPROGS) $(INSTALLDIR)
++	   install    -m0755 $(CPROGS) $(INSTALLDIR)
+ 	set -e ; \
+ 	   cd ../bin ; \
+ 	   install    -m0755 $(PPROGS) $(INSTALLDIR)
