@@ -1,0 +1,22 @@
+inherit font
+
+NAME="font-unifont-ttf"
+VERSION=5.1.20080907
+RELEASE=1
+CATEGORY="X11"
+SUMMARY="Complete Unicode TrueType font"
+DESCRIPTION="GNU Unifont is a Unicode font with a glyph for every visible
+Unicode Basic Multilingual Plane code point and more, with supporting utilities
+to modify the font. The Unicode Basic Multilingual Plane covers the first
+65,536 (or 2^16) Unicode code points."
+HOMEPAGE="http://unifoundry.com/unifont.html"
+SRC_URI="http://unifoundry.com/unifont-${VERSION}.ttf.gz"
+SRC_DIR=.
+
+src_compile() { :; }
+
+src_install() {
+	cd ${S}
+	fontinto TTF
+	dofont *.ttf
+}
