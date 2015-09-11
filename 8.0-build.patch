@@ -1,0 +1,42 @@
+--- origsrc/unifont-8.0.01/Makefile	2015-09-10 20:02:21.154311200 -0500
++++ src/unifont-8.0.01/Makefile	2015-09-10 20:02:31.465120500 -0500
+@@ -98,7 +98,7 @@ lib/wchardata.c: $(HEXFILES) $(COMBINING
+ 	\rm -f unifonttemp.hex
+ #	(cd lib && $(CC) $(CFLAGS) -c wchardata.c && chmod 644 wchardata.o )
+ 
+-install: bindir libdir docdir
++install:
+ 	$(MAKE) -C src install PREFIX=$(PREFIX)
+ 	$(MAKE) -C man install PREFIX=$(PREFIX) COMPRESS=$(COMPRESS)
+ 	$(MAKE) -C font install PREFIX=$(PREFIX) DESTDIR=$(DESTDIR)
+--- origsrc/unifont-8.0.01/font/Makefile	2015-09-10 20:02:21.142809700 -0500
++++ src/unifont-8.0.01/font/Makefile	2015-09-10 20:02:31.469121000 -0500
+@@ -124,7 +124,7 @@ all: compiled
+ compiled: $(UNIFILES) $(COMBINING) $(UPPER_FILES) $(UPPER_COMBINING)
+ 	$(MAKE) compiled-files
+ 
+-compiled-files: pcf psf $(GRAPHICS) ttf csurttf upperttf uppercsurttf \
++compiled-files: pcf $(GRAPHICS) ttf csurttf upperttf uppercsurttf \
+ 	   bigpic coverage
+ 	install -p index.html $(COMPILED_DIR)/index.html
+ 
+--- origsrc/unifont-8.0.01/src/Makefile	2015-09-10 20:02:21.159311800 -0500
++++ src/unifont-8.0.01/src/Makefile	2015-09-10 20:02:31.472121400 -0500
+@@ -41,7 +41,7 @@ bin: bin-stamp
+ bin-stamp: $(CPROGS) $(PPROGS) $(PNGPROGS)
+ 	install    -m0755 -d $(LOCALBINDIR)
+ #	install    -m0755 $? $(LOCALBINDIR)
+-	install -s -m0755 $(CPROGS) $(LOCALBINDIR)
++	install    -m0755 $(CPROGS) $(LOCALBINDIR)
+ 	install    -m0755 $(PPROGS) $(LOCALBINDIR)
+ 	\rm -f $(CPROGS)
+ 	touch $@
+@@ -56,7 +56,7 @@ install:
+ 	install -m0755 -d $(INSTALLDIR)
+ 	set -e && \
+ 	   cd $(LOCALBINDIR) && \
+-	   install -s -m0755 $(CPROGS) $(INSTALLDIR)
++	   install    -m0755 $(CPROGS) $(INSTALLDIR)
+ 	set -e && \
+ 	   cd ../bin && \
+ 	   install    -m0755 $(PPROGS) $(INSTALLDIR)

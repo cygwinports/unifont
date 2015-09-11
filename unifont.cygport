@@ -1,7 +1,7 @@
 inherit font
 
 NAME="unifont"
-VERSION=6.3.20140214
+VERSION=8.0.01
 RELEASE=1
 CATEGORY="X11"
 SUMMARY="Unicode font utilties"
@@ -11,14 +11,21 @@ to modify the font. The Unicode Basic Multilingual Plane covers the first
 65,536 (or 2^16) Unicode code points."
 HOMEPAGE="http://unifoundry.com/unifont.html"
 SRC_URI="mirror://gnu/unifont/unifont-${VERSION}/unifont-${VERSION}.tar.gz"
-PATCH_URI="6.3-build.patch"
+PATCH_URI="8.0-build.patch"
 
-PKG_NAMES="${NAME} font-unifont-misc font-unifont-ttf"
-unifont_CONTENTS="usr/bin/ usr/share/doc/ usr/share/info/ usr/share/man/ usr/share/${NAME}/"
-font_unifont_misc_SUMMARY="Complete Unicode bitmap fonts"
-font_unifont_misc_CONTENTS="etc/postinstall ${FONTSDIR#/}/misc/"
-font_unifont_ttf_SUMMARY="Complete Unicode TrueType fonts"
-font_unifont_ttf_CONTENTS="etc/postinstall ${FONTSDIR#/}/TTF/"
+PKG_NAMES="${NAME} ${NAME}-viewer ${NAME}-fonts"
+unifont_CONTENTS="--exclude=unifont-viewer* usr/bin/ usr/share/doc/ usr/share/info/ usr/share/man/ usr/share/${NAME}/"
+unifont_viewer_CONTENTS="usr/bin/unifont-viewer usr/share/man/man1/unifont-viewer.1*"
+unifont_fonts_SUMMARY="Complete Unicode TrueType fonts"
+unifont_fonts_OBSOLETES="font-unifont-misc font-unifont-ttf"
+unifont_fonts_CONTENTS="etc/postinstall ${FONTSDIR#/}/unifont/"
+# highly unlikely that a legacy app will need this font
+PKG_IGNORE="usr/share/X11/fonts/"
+
+CYGPORT_USE_UNSTABLE_API=1
+src_patch_hook() {
+	find -name 'Makefile' -exec sed -i -e 's|\\rm|-rm|' '{}' +
+}
 
 src_compile() {
 	cd ${B}
@@ -29,9 +36,15 @@ src_compile() {
 
 src_install() {
 	cd ${B}
-	cyginstall -j1 PCFDEST=${D}${FONTSDIR}/misc TTFDEST=${D}${FONTSDIR}/TTF
+	cyginstall -j1 \
+		PCFDEST=${D}/usr/share/X11/fonts/unifont \
+		TTFDEST=${D}${FONTSDIR}/unifont
+
+	find ${D}/usr/share/X11/fonts ${D}${FONTSDIR} -name 'unifont_sample.*' -delete
+	find ${D}/usr/share/X11/fonts ${D}${FONTSDIR} -name 'unifont*_csur.*' -delete
 
 	dodoc doc/unifont.txt
 	doinfo doc/unifont.info
+	# misplaced docs
 	rm -f ${D}/usr/share/unifont/*.gz
 }
