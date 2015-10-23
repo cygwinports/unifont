@@ -4,7 +4,7 @@ NAME="unifont"
 VERSION=8.0.01
 RELEASE=1
 CATEGORY="X11"
-SUMMARY="Unicode font utilties"
+SUMMARY="Unicode font utilities"
 DESCRIPTION="GNU Unifont is a Unicode font with a glyph for every visible
 Unicode Basic Multilingual Plane code point and more, with supporting utilities
 to modify the font. The Unicode Basic Multilingual Plane covers the first
